@@ -6,9 +6,10 @@ public class PingPong_CellularAutomata : MonoBehaviour
 {
     Texture2D texA;
     Texture2D texB;
-    Texture2D inputTex;
-    Texture2D outputTex;
+    //Texture2D inputTex;
+    //Texture2D outputTex;
     RenderTexture rt1;
+    RenderTexture rt2;
 
     Shader cellularAutomataShader;
     Shader ouputTextureShader;
@@ -19,8 +20,7 @@ public class PingPong_CellularAutomata : MonoBehaviour
     Renderer rend;
     int count = 0;
 
-    void Start()
-    {
+    void Start() {
         //print(SystemInfo.copyTextureSupport);
 
         width = 128;
@@ -45,34 +45,40 @@ public class PingPong_CellularAutomata : MonoBehaviour
 
 
         rt1 = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear);
-   
+        rt2 = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear);
+        rt1.filterMode = FilterMode.Point;
+        rt2.filterMode = FilterMode.Point;
 
         rend = GetComponent<Renderer>();
 
         cellularAutomataShader = Shader.Find("Custom/RenderToTexture_CA");
         ouputTextureShader = Shader.Find("Custom/OutputTexture");
 
+        rend.material.shader = cellularAutomataShader;
+        Graphics.Blit(texA, rt1, rend.material);
+        Graphics.Blit(texB, rt2, rend.material);
     }
 
    
-    void Update()
-    {
+    void Update() {
         //set active shader to be a shader that computes the next timestep
         //of the Cellular Automata system
         rend.material.shader = cellularAutomataShader;
       
-        if (count % 2 == 0)
-        {
-            inputTex = texA;
-            outputTex = texB;
+        if (count % 2 == 0) {
+            rend.material.SetTexture("_MainTex", rt1);
+            Graphics.Blit(rt1, rt2, rend.material);
+            rend.material.shader = ouputTextureShader;
+            rend.material.SetTexture("_MainTex", rt2);
         }
-        else
-        {
-            inputTex = texB;
-            outputTex = texA;
+        else {
+            rend.material.SetTexture("_MainTex", rt2);
+            Graphics.Blit(rt2, rt1, rend.material);
+            rend.material.shader = ouputTextureShader;
+            rend.material.SetTexture("_MainTex", rt1);
         }
 
-
+        /*
         rend.material.SetTexture("_MainTex", inputTex);
 
         //source, destination, material
@@ -85,7 +91,7 @@ public class PingPong_CellularAutomata : MonoBehaviour
         rend.material.shader = ouputTextureShader;
         rend.material.SetTexture("_MainTex", outputTex);
        
-
+    */
         count++;
     }
 }
