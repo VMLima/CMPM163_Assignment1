@@ -1,5 +1,6 @@
 # CMPM 163 Homework 1
-This project showcases a variety of different shaders based on in-class examples. All three parts are labeled and displayed in one scene and the instructions for controlling the shaders (if users can interact with it) is displayed along with the part and name.
+This project showcases a variety of different shaders based on in-class examples. All three parts are labeled and displayed in one scene and the instructions for controlling the shaders (if users can interact with it) is displayed along with the part and name. 
+<b>In order to fully rotate in the scene, you must click into the WebGL player. You can then hit escape to show the cursor again</b>
 
 ## Part A: Design a 3D Scene 
 The scene was set up within a square taking into account the other parts of the assignment. The three shaders it shows are a texture shader that reacts to lighting, a texture shader that applies twisting vertex displacement, and a vertex displacement shader that changes color over time. The three lights for the project are circling the PhongTexture shader.<sup>*</sup>
@@ -15,5 +16,6 @@ The image processing shader combines both the blur and edge shaders shown in cla
 The Game of Life shader uses the shader given in class and modifies it colors. The user can press the spacebar to restart the shader which is useful if it becomes static.
 
 <sup>* There is a bug where the green light sometimes does not appear. It was working at one point, but on saving, quitting and returning, it stopped working again.
+<br>
 ** The values are locked between 0 and 30 because I noticed severe frame drops on my computer when it when the blur value went over 30. The other two values are not locked at all.
 </sup>
